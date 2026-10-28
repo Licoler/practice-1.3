@@ -1,0 +1,17 @@
+{
+  "name": "sequelize-practice-1-3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1"
+  }
+}
