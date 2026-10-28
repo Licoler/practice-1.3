@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
 
-// ---------- User / Post ----------
+// User / Post
 
 const User = sequelize.define('User', {
   name: {
@@ -33,7 +33,7 @@ const Post = sequelize.define('Post', {
   },
 });
 
-// ---------- Author / Book ----------
+// Author / Book 
 
 const Author = sequelize.define('Author', {
   firstName: {
@@ -62,7 +62,7 @@ const Book = sequelize.define('Book', {
   },
 });
 
-// ---------- Student / Course / Enrollment ----------
+// Student / Course / Enrollment
 
 const Student = sequelize.define('Student', {
   name: {
@@ -95,7 +95,7 @@ const Enrollment = sequelize.define('Enrollment', {
   },
 });
 
-// ---------- Order / Item ----------
+// Order / Item
 
 const Order = sequelize.define('Order', {
   number: {
@@ -125,7 +125,7 @@ const Item = sequelize.define('Item', {
   },
 });
 
-// ---------- Associations ----------
+// Associations
 
 // Один пользователь может иметь несколько постов.
 User.hasMany(Post, {
@@ -150,7 +150,6 @@ Book.belongsTo(Author, {
 });
 
 // Студенты и курсы связаны отношением многие-ко-многим.
-// Enrollment — соединительная таблица с дополнительными полями.
 Student.belongsToMany(Course, {
   through: Enrollment,
   foreignKey: 'studentId',

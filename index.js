@@ -14,14 +14,11 @@ const {
 } = require('./models');
 
 // Преобразует экземпляры Sequelize в обычные объекты
-// для удобного вывода результатов в терминал.
 function toPlainData(rows) {
   return rows.map((row) => row.toJSON());
 }
 
-// ==================================================
-// ЗАДАНИЕ 1. Пользователи с постами после даты
-// ==================================================
+// 1. Пользователи с постами после даты
 
 async function getUsersWithRecentPosts() {
   return User.findAll({
@@ -51,9 +48,7 @@ async function getUsersWithRecentPosts() {
   });
 }
 
-// ==================================================
-// ЗАДАНИЕ 2. Все авторы, включая авторов без книг
-// ==================================================
+// 2. Все авторы, включая авторов без книг
 
 async function getAllAuthorsIncludingEmpty() {
   return Author.findAll({
@@ -72,9 +67,7 @@ async function getAllAuthorsIncludingEmpty() {
   });
 }
 
-// ==================================================
-// ЗАДАНИЕ 3. Студенты, записанные на курсы с credits > 3
-// ==================================================
+// 3. Студенты, записанные на курсы с credits > 3
 
 async function getStudentsInAdvancedCourses() {
   return Student.findAll({
@@ -83,7 +76,7 @@ async function getStudentsInAdvancedCourses() {
         model: Course,
         as: 'courses',
 
-        // Выбираем только курсы, у которых credits больше 3.
+        // курсы у которых credits больше 3.
         where: {
           credits: {
             [Op.gt]: 3,
@@ -108,9 +101,7 @@ async function getStudentsInAdvancedCourses() {
   });
 }
 
-// ==================================================
-// ЗАДАНИЕ 4. Заказы с товарами в количестве больше 2
-// ==================================================
+// 4. Заказы с товарами в количестве больше 2
 
 async function getOrdersWithBulkItems() {
   return Order.findAll({
@@ -119,7 +110,7 @@ async function getOrdersWithBulkItems() {
         model: Item,
         as: 'items',
 
-        // В заказ включаются только товары с quantity > 2.
+        // товары с quantity > 2.
         where: {
           quantity: {
             [Op.gt]: 2,
@@ -140,13 +131,11 @@ async function getOrdersWithBulkItems() {
   });
 }
 
-// ==================================================
-// ЗАДАНИЕ 5. Активные пользователи с опубликованными постами
-// ==================================================
+// 5. Активные пользователи с опубликованными постами
 
 async function getActiveUsersWithPublishedPosts() {
   return User.findAll({
-    // Верхнеуровневый where фильтрует пользователей.
+    // фильтрует пользователей.
     where: {
       isActive: true,
     },
@@ -156,12 +145,12 @@ async function getActiveUsersWithPublishedPosts() {
         model: Post,
         as: 'posts',
 
-        // Вложенный where фильтрует посты по статусу.
+        // фильтрует посты по статусу.
         where: {
           status: 'published',
         },
 
-        // Исключаем активных пользователей без опубликованных постов.
+        // Исключает активных пользователей без опубликованных постов.
         required: true,
       },
     ],
@@ -175,15 +164,12 @@ async function getActiveUsersWithPublishedPosts() {
   });
 }
 
-// ==================================================
 // ТЕСТОВЫЕ ДАННЫЕ
-// ==================================================
 
 async function seedDatabase() {
-  // Пересоздаём таблицы и наполняем их тестовыми данными.
   await sequelize.sync({ force: true });
 
-  // ---------- Пользователи ----------
+  //Пользователи
 
   const user1 = await User.create({
     name: 'Алексей',
@@ -228,7 +214,7 @@ async function seedDatabase() {
     },
   ]);
 
-  // ---------- Авторы и книги ----------
+  // Авторы и книги 
 
   const author1 = await Author.create({
     firstName: 'Лев',
@@ -270,7 +256,7 @@ async function seedDatabase() {
     },
   ]);
 
-  // ---------- Студенты и курсы ----------
+  //  Студенты и курсы
 
   const student1 = await Student.create({
     name: 'Иван',
@@ -321,7 +307,7 @@ async function seedDatabase() {
     },
   ]);
 
-  // ---------- Заказы и товары ----------
+  // Заказы и товары 
 
   // Фиксированные даты позволяют проверить сортировку DESC.
   const order1 = await Order.create({
@@ -364,9 +350,7 @@ async function seedDatabase() {
   ]);
 }
 
-// ==================================================
 // ЗАПУСК ВСЕХ ПЯТИ ЗАДАНИЙ
-// ==================================================
 
 async function main() {
   await seedDatabase();
@@ -397,7 +381,6 @@ async function main() {
   });
 }
 
-// При ошибке выводим её в терминал.
 main().catch((error) => {
   console.error('Ошибка при выполнении:', error);
 });
